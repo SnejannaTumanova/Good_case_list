@@ -4,6 +4,8 @@ import Button from '../../ui/Button/Button';
 import TextInput from '../../ui/TextInput/TextInput';
 import styles from './MainPage.module.css';
 import { useNavigate } from 'react-router-dom';
+import UserList from '../../components/UserList';
+import TodoList from '../../components/TodoList';
 
 function MainPage() {
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
@@ -14,21 +16,6 @@ function MainPage() {
 
   const navigate = useNavigate();
 
-  // const users: IUser[] = [
-  //   {
-  //     firstName: 'Sneganna',
-  //     lastName: 'Novikova',
-  //     email: 'Sneganna@m.ru',
-  //     password: '1234',
-  //   },
-  //   {
-  //     firstName: 'Ruslan',
-  //     lastName: 'Tumanov',
-  //     email: 'Ruslan@m.ru',
-  //     password: '4321',
-  //   },
-  // ];
-
   const newUser: IUser = {
     firstName,
     lastName,
@@ -38,6 +25,8 @@ function MainPage() {
 
   return (
     <div className={styles.container}>
+      <UserList />
+      <TodoList />
       {isRegistration ? (
         <div className={styles.form}>
           <div className={styles.formGroup}>
