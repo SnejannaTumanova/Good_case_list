@@ -1,20 +1,20 @@
 import { Dispatch } from 'redux';
-import { UserAction, UserActionType } from '../../types/user';
+import { IUserMy, UserAction, UserActionType } from '../../types/user';
 import axios from 'axios';
 
 export const fetchUsers = () => {
   return async (dispatch: Dispatch<UserAction>) => {
     try {
       dispatch({ type: UserActionType.FETCH_USERS });
+
       const response = await axios.get(
         'https://jsonplaceholder.typicode.com/users'
       );
-      setTimeout(() => {
-        dispatch({
-          type: UserActionType.FETCH_USERS_SUCCESS,
-          payload: response.data,
-        });
-      }, 2000);
+
+      dispatch({
+        type: UserActionType.FETCH_USERS_SUCCESS,
+        payload: response.data,
+      });
     } catch (e) {
       dispatch({
         type: UserActionType.FETCH_USERS_ERROR,
@@ -23,3 +23,98 @@ export const fetchUsers = () => {
     }
   };
 };
+
+export function fetchUser(userId: number) {
+  return async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionType.FETCH_USER });
+
+      const response = await axios.get(
+        `https://jsonplaceholder.typicode.com/users/${userId}`
+      );
+
+      dispatch({
+        type: UserActionType.FETCH_USER_SUCCESS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch({
+        type: UserActionType.FETCH_USER_ERROR,
+        payload: `Error: Something didn't go according to plan`,
+      });
+    }
+  };
+}
+
+export function createUser({ firstName, lastName, email, password }: IUserMy) {
+  return async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionType.CREATE_USER });
+
+      const response = await axios.post(
+        'https://jsonplaceholder.typicode.com/users',
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+        }
+      );
+
+      dispatch({
+        type: UserActionType.CREATE_USER_SUCCESS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch({
+        type: UserActionType.CREATE_USER_ERROR,
+        payload: `Error: Something didn't go according to plan`,
+      });
+    }
+  };
+}
+
+export function deleteUser(userId: number) {
+  return async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionType.DELETE_USER });
+
+      await axios.delete(
+        `https://jsonplaceholder.typicode.com/users/${userId}`
+      );
+
+      dispatch({
+        type: UserActionType.DELETE_USER_SUCCESS,
+        payload: userId,
+      });
+    } catch (e) {
+      dispatch({
+        type: UserActionType.DELETE_USER_ERROR,
+        payload: `Error: Something didn't go according to plan`,
+      });
+    }
+  };
+}
+
+export function updateUser(user: IUserMy) {
+  return async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionType.UPDATE_USER });
+
+      const response = await axios.put(
+        `https://jsonplaceholder.typicode.com/users/${user.id}`,
+        user
+      );
+
+      dispatch({
+        type: UserActionType.UPDATE_USER_SUCCESS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch({
+        type: UserActionType.UPDATE_USER_ERROR,
+        payload: `Error: Something didn't go according to plan`,
+      });
+    }
+  };
+}

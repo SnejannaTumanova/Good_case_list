@@ -1,6 +1,8 @@
-import { useTypedSelector } from '../hooks/useTapedSelector';
 import { useEffect } from 'react';
-import { useActions } from '../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTapedSelector';
+import { useActions } from '../../hooks/useActions';
+import UserItem from '../UserItem/UserItem';
+import styles from './UserList.module.css';
 
 function UserList() {
   const { users, error, loading } = useTypedSelector((state) => state.user);
@@ -19,9 +21,9 @@ function UserList() {
   }
 
   return (
-    <div>
+    <div className={styles.friends}>
       {users.map((user) => (
-        <div key={user.id}>{user.name}</div>
+        <UserItem key={user.id} user={user} />
       ))}
     </div>
   );

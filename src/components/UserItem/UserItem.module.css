@@ -1,0 +1,6 @@
+.friend {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border: 2px solid rgb(252, 234, 135);
+}

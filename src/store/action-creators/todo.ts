@@ -10,12 +10,10 @@ export const fetchTodos = (page = 1, limit = 10) => {
         'https://jsonplaceholder.typicode.com/todos',
         { params: { _page: page, _limit: limit } }
       );
-      setTimeout(() => {
-        dispatch({
-          type: TodoActionType.FETCH_TODOS_SUCCESS,
-          payload: response.data,
-        });
-      }, 2000);
+      dispatch({
+        type: TodoActionType.FETCH_TODOS_SUCCESS,
+        payload: response.data,
+      });
     } catch (e) {
       dispatch({
         type: TodoActionType.FETCH_TODOS_ERROR,

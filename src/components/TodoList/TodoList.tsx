@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { useTypedSelector } from '../hooks/useTapedSelector';
-import { useActions } from '../hooks/useActions';
+import { useEffect } from 'react';
+import { useTypedSelector } from '../../hooks/useTapedSelector';
+import { useActions } from '../../hooks/useActions';
+import TodoItem from '../TodoItem/TodoItem';
+import styles from './TodoList.module.css';
 
 function TodoList() {
   const { error, limit, loading, page, todos } = useTypedSelector(
@@ -21,19 +23,17 @@ function TodoList() {
     return <h1>{error}</h1>;
   }
   return (
-    <div>
+    <div className={styles.container}>
       {todos.map((todo) => (
-        <div key={todo.id}>
-          {todo.id} - {todo.title}
-        </div>
+        <TodoItem key={todo.id} todo={todo} />
       ))}
-      <div style={{ display: 'flex' }}>
+      <div className={styles.pages}>
         {pages.map((p) => (
           <div
+            className={styles.page}
             onClick={() => setTodoPage(p)}
             style={{
-              border: p === page ? '10px double green' : '2px solid blue',
-              padding: 10,
+              border: p === page ? '6px double white' : '1px solid black',
             }}
           >
             {p}

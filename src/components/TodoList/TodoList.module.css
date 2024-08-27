@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pages {
+  display: flex;
+  gap: 5px;
+}
+
+.page {
+  padding: 10;
+  background: black;
+  color: white;
+  font-weight: 800;
+  font-size: 1.4em;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}

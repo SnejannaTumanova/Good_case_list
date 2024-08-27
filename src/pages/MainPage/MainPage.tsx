@@ -1,11 +1,9 @@
 import { ChangeEvent, useState } from 'react';
-import { IUser } from '../types';
+// import { IUser } from '../types';
 import Button from '../../ui/Button/Button';
 import TextInput from '../../ui/TextInput/TextInput';
 import styles from './MainPage.module.css';
 import { useNavigate } from 'react-router-dom';
-import UserList from '../../components/UserList';
-import TodoList from '../../components/TodoList';
 
 function MainPage() {
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
@@ -16,17 +14,15 @@ function MainPage() {
 
   const navigate = useNavigate();
 
-  const newUser: IUser = {
-    firstName,
-    lastName,
-    email,
-    password,
-  };
+  // const newUser: IUser = {
+  //   firstName,
+  //   lastName,
+  //   email,
+  //   password,
+  // };
 
   return (
     <div className={styles.container}>
-      <UserList />
-      <TodoList />
       {isRegistration ? (
         <div className={styles.form}>
           <div className={styles.formGroup}>

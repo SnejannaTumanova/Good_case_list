@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(0.25turn, rgb(218, 165, 253), rgb(154, 237, 237));
+  border-radius: 30px;
+  border: 2px solid rgba(252, 234, 135, 0.989);
+  width: 75vw;
+  height: 70px;
+  overflow: auto;
+  gap: 10px;
+}
+
+.number {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: start;
+  flex-basis: 20%;
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: end;
+  flex-basis: 20%;
+}
