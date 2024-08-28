@@ -4,6 +4,7 @@ import TextInput from '../../ui/TextInput/TextInput';
 import styles from './MainPage.module.css';
 import { AuthCredentials, IUserMy } from '../../types/user';
 import { useActions } from '../../hooks/useActions';
+import { useNavigate } from 'react-router-dom';
 
 function MainPage() {
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
@@ -13,6 +14,7 @@ function MainPage() {
   const [password, setPassword] = useState<string>('');
   const { createUser } = useActions();
   const { authenticateUser } = useActions();
+  const navigate = useNavigate();
 
   const newUser: IUserMy = {
     firstName,
@@ -118,8 +120,9 @@ function MainPage() {
           <Button
             text="Register"
             onClick={() => {
-              createUser(newUser);
+              navigate('/user/:userId');
             }}
+            // onClick={() => { createUser(newUser, navigate);}}
           />
         </div>
       )}

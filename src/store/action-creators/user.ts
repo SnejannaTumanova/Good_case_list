@@ -6,9 +6,6 @@ import {
   UserActionType,
 } from '../../types/user';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
-const navigate = useNavigate();
 
 // для получения списка друзей
 export const fetchUsers = () => {
@@ -57,7 +54,10 @@ export function fetchUser(userId: number) {
   };
 }
 
-export function createUser({ firstName, lastName, email, password }: IUserMy) {
+export function createUser(
+  { firstName, lastName, email, password }: IUserMy,
+  navigate: (path: string) => void
+) {
   return async (dispatch: Dispatch<UserAction>) => {
     try {
       dispatch({ type: UserActionType.CREATE_USER });
@@ -76,8 +76,9 @@ export function createUser({ firstName, lastName, email, password }: IUserMy) {
         type: UserActionType.CREATE_USER_SUCCESS,
         payload: response.data,
       });
+
       if (response.status === 200) {
-        navigate(`/user/${response.data.id}`); //'/user/userId'
+        navigate(`/user/${response.data.id}`); // Переход после успешного создания пользователя
       }
     } catch (e) {
       dispatch({

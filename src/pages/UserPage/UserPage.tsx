@@ -14,31 +14,35 @@ import { IUserMy } from '../../types/user';
 import { useDispatch } from 'react-redux';
 
 function UserPage(): any {
-  const { fetchUser } = useActions();
+  const { fetchUsers } = useActions();
   const { userId } = useParams<{ userId: string }>(); // если используете react-router для получения userId из URL
-  const [user, setUser] = useState<IUserMy | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await dispatch(fetchUser(Number(userId)) as any);
-        setUser(response);
-        setLoading(false);
-      } catch (error) {
-        setError(`Error: Something didn't go according to plan`);
-        setLoading(false);
-      }
-    };
+  const user = {
+    firstName: 'Ruslan',
+    lastName: 'Tumanov',
+  };
 
-    getUser();
-  }, [userId, dispatch]);
+  //
+  //   const getUser = async () => {
+  //     try {
+  //       const response = await dispatch(fetchUser(Number(userId)) as any);
+  //       setUser(response);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError(`Error: Something didn't go according to plan`);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   getUser();
+  // }, [userId, dispatch]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-  const navigate = useNavigate();
 
   return (
     <div className={styles.main}>
@@ -47,7 +51,10 @@ function UserPage(): any {
           <RiEdit2Line />
           <MdOutlineExitToApp onClick={() => navigate('/')} />
         </div>
-        {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}
+        <h3 className={styles.name}>
+          {user.firstName}
+          {user.lastName}
+        </h3>
         <img src="/avatarka-65.png" alt="avatar" className={styles.avatar} />
         <div>
           <Button text="Add a case" />
