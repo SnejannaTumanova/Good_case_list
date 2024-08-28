@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from 'react';
-// import { IUser } from '../types';
 import Button from '../../ui/Button/Button';
 import TextInput from '../../ui/TextInput/TextInput';
 import styles from './MainPage.module.css';
-import { useNavigate } from 'react-router-dom';
+import { AuthCredentials, IUserMy } from '../../types/user';
+import { useActions } from '../../hooks/useActions';
 
 function MainPage() {
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
@@ -11,15 +11,20 @@ function MainPage() {
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const { createUser } = useActions();
+  const { authenticateUser } = useActions();
 
-  const navigate = useNavigate();
+  const newUser: IUserMy = {
+    firstName,
+    lastName,
+    email,
+    password,
+  };
 
-  // const newUser: IUser = {
-  //   firstName,
-  //   lastName,
-  //   email,
-  //   password,
-  // };
+  const authCredentials: AuthCredentials = {
+    email,
+    password,
+  };
 
   return (
     <div className={styles.container}>
@@ -53,7 +58,10 @@ function MainPage() {
           >
             Regist
           </p>
-          <Button text="Log in" />
+          <Button
+            text="Log in"
+            onClick={() => authenticateUser(authCredentials)}
+          />
         </div>
       ) : (
         <div className={styles.form}>
@@ -107,7 +115,12 @@ function MainPage() {
           >
             Log in
           </p>
-          <Button text="Register" onClick={() => navigate('/user/:userId')} />
+          <Button
+            text="Register"
+            onClick={() => {
+              createUser(newUser);
+            }}
+          />
         </div>
       )}
     </div>

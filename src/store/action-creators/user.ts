@@ -1,7 +1,16 @@
 import { Dispatch } from 'redux';
-import { IUserMy, UserAction, UserActionType } from '../../types/user';
+import {
+  AuthCredentials,
+  IUserMy,
+  UserAction,
+  UserActionType,
+} from '../../types/user';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
+const navigate = useNavigate();
+
+// для получения списка друзей
 export const fetchUsers = () => {
   return async (dispatch: Dispatch<UserAction>) => {
     try {
@@ -24,6 +33,7 @@ export const fetchUsers = () => {
   };
 };
 
+// для получения данных пользователя и отрисовки на странице UserPage
 export function fetchUser(userId: number) {
   return async (dispatch: Dispatch<UserAction>) => {
     try {
@@ -37,6 +47,7 @@ export function fetchUser(userId: number) {
         type: UserActionType.FETCH_USER_SUCCESS,
         payload: response.data,
       });
+      return response.data;
     } catch (e) {
       dispatch({
         type: UserActionType.FETCH_USER_ERROR,
@@ -65,6 +76,9 @@ export function createUser({ firstName, lastName, email, password }: IUserMy) {
         type: UserActionType.CREATE_USER_SUCCESS,
         payload: response.data,
       });
+      if (response.status === 200) {
+        navigate(`/user/${response.data.id}`); //'/user/userId'
+      }
     } catch (e) {
       dispatch({
         type: UserActionType.CREATE_USER_ERROR,
@@ -114,6 +128,32 @@ export function updateUser(user: IUserMy) {
       dispatch({
         type: UserActionType.UPDATE_USER_ERROR,
         payload: `Error: Something didn't go according to plan`,
+      });
+    }
+  };
+}
+
+export function authenticateUser({ email, password }: AuthCredentials) {
+  return async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionType.AUTHENTICATE_USER });
+
+      const response = await axios.post(
+        'https://jsonplaceholder.typicode.com/users/auth',
+        {
+          email,
+          password,
+        }
+      );
+
+      dispatch({
+        type: UserActionType.AUTHENTICATE_USER_SUCCESS,
+        payload: response.data, // Это  токен или информация о пользователе, пока не знаю как обработать
+      });
+    } catch (e) {
+      dispatch({
+        type: UserActionType.AUTHENTICATE_USER_ERROR,
+        payload: 'Authentication failed',
       });
     }
   };

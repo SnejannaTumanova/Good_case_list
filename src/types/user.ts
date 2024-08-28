@@ -6,11 +6,11 @@ export interface UserState {
 
 // Мой вид user
 export interface IUserMy {
-  id: number;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  id?: number;
 }
 
 //Моковый user
@@ -30,6 +30,11 @@ export interface IUserProps {
   user: IUser;
 }
 
+export interface AuthCredentials {
+  email: string;
+  password: string;
+}
+
 export enum UserActionType {
   FETCH_USERS = 'FETCH_USERS',
   FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS',
@@ -46,6 +51,9 @@ export enum UserActionType {
   UPDATE_USER = 'UPDATE_USER',
   UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS',
   UPDATE_USER_ERROR = 'UPDATE_USER_ERROR',
+  AUTHENTICATE_USER = 'AUTHENTICATE_USER',
+  AUTHENTICATE_USER_SUCCESS = 'AUTHENTICATE_USER_SUCCESS',
+  AUTHENTICATE_USER_ERROR = 'AUTHENTICATE_USER_ERROR',
 }
 
 interface FetchUsersAction {
@@ -110,11 +118,28 @@ interface UpdateUserAction {
 
 interface UpdateUserSuccessAction {
   type: UserActionType.UPDATE_USER_SUCCESS;
-  payload: IUserMy; // предполагается, что у вас есть интерфейс IUser для пользователя
+  payload: IUserMy;
 }
 
 interface UpdateUserErrorAction {
   type: UserActionType.UPDATE_USER_ERROR;
+  payload: string;
+}
+
+interface AuthenticateUserAction {
+  type: UserActionType.AUTHENTICATE_USER;
+}
+
+interface AuthenticateUserSuccessAction {
+  type: UserActionType.AUTHENTICATE_USER_SUCCESS;
+  payload: {
+    token: string; // Обычно сервер возвращает токен
+    user: IUserMy;
+  };
+}
+
+interface AuthenticateUserErrorAction {
+  type: UserActionType.AUTHENTICATE_USER_ERROR;
   payload: string;
 }
 
@@ -133,4 +158,7 @@ export type UserAction =
   | DeleteUserErrorAction
   | UpdateUserAction
   | UpdateUserSuccessAction
-  | UpdateUserErrorAction;
+  | UpdateUserErrorAction
+  | AuthenticateUserAction
+  | AuthenticateUserSuccessAction
+  | AuthenticateUserErrorAction;

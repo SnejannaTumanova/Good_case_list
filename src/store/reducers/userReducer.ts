@@ -1,4 +1,4 @@
-import { UserAction, UserActionType } from '../../types/user';
+import { IUserMy, UserAction, UserActionType } from '../../types/user';
 
 interface UserState {
   users: any[];
@@ -78,6 +78,15 @@ export const userReducer = (
         ),
       };
     case UserActionType.UPDATE_USER_ERROR:
+      return { ...state, loading: false, error: action.payload };
+
+    case UserActionType.AUTHENTICATE_USER:
+      return { ...state, loading: true, error: null };
+
+    case UserActionType.AUTHENTICATE_USER_SUCCESS:
+      return { ...state, loading: false }; //пока не поняла нужно ли менять что-то ещё
+
+    case UserActionType.AUTHENTICATE_USER_ERROR:
       return { ...state, loading: false, error: action.payload };
 
     default:
